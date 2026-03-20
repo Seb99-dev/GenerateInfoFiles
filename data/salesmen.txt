@@ -1,0 +1,10 @@
+CC;1001;Juan;Perez
+CC;1002;Maria;Gomez
+CC;1003;Carlos;Lopez
+CC;1004;Ana;Rodriguez
+CC;1005;Luis;Martinez
+CC;1006;Pedro;Ramirez
+CC;1007;Sofia;Torres
+CC;1008;Diego;Diaz
+CC;1009;Laura;Castro
+CC;1010;Andres;Vargas

@@ -1,0 +1,10 @@
+1;Rice;7000
+2;Milk;3000
+3;Bread;10000
+4;Eggs;17000
+5;Coffee;18000
+6;Sugar;19000
+7;Salt;2000
+8;Oil;20000
+9;Cheese;1000
+10;Chicken;15000
