@@ -1,0 +1,17 @@
+# Ignorar carpeta de datos generados
+data/
+
+# Ignorar carpetas de compilación
+bin/
+out/
+target/
+
+# Ignorar archivos compilados de Java
+*.class
+
+# Ignorar archivos de configuración de otros IDEs
+.idea/
+*.iml
+*.settings/
+.project
+.classpath

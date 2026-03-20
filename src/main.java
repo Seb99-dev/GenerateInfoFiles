@@ -27,7 +27,7 @@ public class main {
             if (files != null) {
                 for (File file : files) {
 
-                    if (file.getName().startsWith("sales_")) {
+                    if (file.getName().startsWith("sales_") && file.getName().endsWith(".txt")) {
 
                         BufferedReader br = new BufferedReader(new FileReader(file));
 

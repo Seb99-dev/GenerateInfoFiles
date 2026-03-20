@@ -36,6 +36,19 @@ The system is implemented in **Java** and follows a two-class design:
 |
 |--README.md
 
+## How to Run
+
+Since this project has no auto-build, you **must compile manually** before running.
+
+### 1. Pre-requisite: Compile
+```bash
+javac -d bin src/*.java
+```
+
+### 2. Run
+-   **Terminal**: `java -cp bin GenerateInfoFiles && java -cp bin main`
+-   **IDE**: Open the file and press **F5** (requires Step 1).
+
 ---
 
 ## Requirements
