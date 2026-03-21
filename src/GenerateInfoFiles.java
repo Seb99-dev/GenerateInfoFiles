@@ -12,28 +12,44 @@ import java.util.Random;
  */
 public class GenerateInfoFiles {
 
-    static String[] firstNames = {"Juan", "Maria", "Carlos", "Ana", "Luis", "Pedro", "Sofia", "Diego", "Laura", "Andres"};
-    static String[] lastNames = {"Perez", "Gomez", "Lopez", "Rodriguez", "Martinez", "Ramirez", "Torres", "Diaz", "Castro", "Vargas"};
-    static String[] productNames = {"Rice", "Milk", "Bread", "Eggs", "Coffee", "Sugar", "Salt", "Oil", "Cheese", "Chicken"};
+    private static final String DATA_FOLDER = "data";
+    private static final String SALESMEN_FILE = DATA_FOLDER + "/salesmen.txt";
+    private static final String PRODUCTS_FILE = DATA_FOLDER + "/products.txt";
+
+    private static final int TOTAL_SALESMEN = 10;
+    private static final int TOTAL_PRODUCTS = 10;
+    private static final int SALES_PER_SALESMAN = 10;
+    private static final int BASE_SALESMAN_ID = 1001;
+
+    private static final Random RANDOM = new Random();
+
+    static String[] firstNames = {
+        "Juan", "Maria", "Carlos", "Ana", "Luis",
+        "Pedro", "Sofia", "Diego", "Laura", "Andres"
+    };
+
+    static String[] lastNames = {
+        "Perez", "Gomez", "Lopez", "Rodriguez", "Martinez",
+        "Ramirez", "Torres", "Diaz", "Castro", "Vargas"
+    };
+
+    static String[] productNames = {
+        "Rice", "Milk", "Bread", "Eggs", "Coffee",
+        "Sugar", "Salt", "Oil", "Cheese", "Chicken"
+    };
 
     public static void main(String[] args) {
-
         try {
             createFolder();
+            createSalesManInfoFile(TOTAL_SALESMEN);
+            createProductsFile(TOTAL_PRODUCTS);
 
-            // Create input files
-            createSalesManInfoFile(10);
-            createProductsFile(10);
-
-            // Create individual sales files for each salesman
-            int totalSalesmen = 10;
-            for (int i = 0; i < totalSalesmen; i++) {
-                long id = 1001 + i;
-                createSalesMenFile(10, "Salesman" + i, id);
+            for (int i = 0; i < TOTAL_SALESMEN; i++) {
+                long id = BASE_SALESMAN_ID + i;
+                createSalesMenFile(SALES_PER_SALESMAN, "Salesman" + i, id);
             }
 
             System.out.println("Files generated successfully ✅");
-
         } catch (Exception e) {
             System.out.println("Error generating files ❌");
             e.printStackTrace();
@@ -41,49 +57,44 @@ public class GenerateInfoFiles {
     }
 
     /**
-     * Creates the directory where all files will be stored
+     * Creates the directory where all files will be stored.
      */
     public static void createFolder() {
-        File folder = new File("data");
+        File folder = new File(DATA_FOLDER);
         if (!folder.exists()) {
-            folder.mkdir();
+            boolean created = folder.mkdir();
+            if (!created) {
+                System.out.println("Warning: data folder could not be created.");
+            }
         }
     }
 
     /**
-     * Creates the salesmen information file
+     * Creates the salesmen information file.
      * @param salesmanCount number of salesmen
      */
     public static void createSalesManInfoFile(int salesmanCount) throws IOException {
-
-        FileWriter writer = new FileWriter("data/salesmen.txt");
-        Random random = new Random();
-
-        int baseId = 1001;
+        FileWriter writer = new FileWriter(SALESMEN_FILE);
 
         for (int i = 0; i < salesmanCount; i++) {
-            // Pseudo-random selection of names
-            String firstName = firstNames[random.nextInt(firstNames.length)];
-            String lastName = lastNames[random.nextInt(lastNames.length)];
+            String firstName = firstNames[RANDOM.nextInt(firstNames.length)];
+            String lastName = lastNames[RANDOM.nextInt(lastNames.length)];
 
-            writer.write("CC;" + (baseId + i) + ";" + firstName + ";" + lastName + "\n");
+            writer.write("CC;" + (BASE_SALESMAN_ID + i) + ";" + firstName + ";" + lastName + "\n");
         }
 
         writer.close();
     }
 
     /**
-     * Creates the products file with random prices
+     * Creates the products file with random prices.
      * @param productsCount number of products
      */
     public static void createProductsFile(int productsCount) throws IOException {
-
-        FileWriter writer = new FileWriter("data/products.txt");
-        Random random = new Random();
+        FileWriter writer = new FileWriter(PRODUCTS_FILE);
 
         for (int i = 0; i < productsCount; i++) {
-
-            int price = (random.nextInt(20) + 1) * 1000;
+            int price = (RANDOM.nextInt(20) + 1) * 1000;
             String productName = productNames[i % productNames.length];
 
             writer.write((i + 1) + ";" + productName + ";" + price + "\n");
@@ -93,23 +104,20 @@ public class GenerateInfoFiles {
     }
 
     /**
-     * Creates a sales file for a specific salesman
-     * @param randomSalesCount number of products sold
-     * @param name salesman name (not used but required by specification)
+     * Creates a sales file for a specific salesman.
+     * @param randomSalesCount number of sales records to generate
+     * @param name salesman name (required by specification)
      * @param id salesman ID
      */
     public static void createSalesMenFile(int randomSalesCount, String name, long id) throws IOException {
+        FileWriter writer = new FileWriter(DATA_FOLDER + "/sales_" + id + ".txt");
 
-        FileWriter writer = new FileWriter("data/sales_" + id + ".txt");
-        Random random = new Random();
-
-        // Header
         writer.write("CC;" + id + "\n");
 
-        // Sales records (Based on real products)
-        for (int i = 1; i <= productNames.length; i++) {
-            int quantity = random.nextInt(10) + 1;
-            writer.write(i + ";" + quantity + ";\n");
+        for (int i = 0; i < randomSalesCount; i++) {
+            int productCode = RANDOM.nextInt(TOTAL_PRODUCTS) + 1;
+            int quantity = RANDOM.nextInt(10) + 1;
+            writer.write(productCode + ";" + quantity + ";\n");
         }
 
         writer.close();
