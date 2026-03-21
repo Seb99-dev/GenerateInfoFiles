@@ -1,15 +1,15 @@
-# Ignorar carpeta de datos generados
+# Ignore core of generated data
 data/
 
-# Ignorar carpetas de compilación
+# Ignore build folders
 bin/
 out/
 target/
 
-# Ignorar archivos compilados de Java
+# Ignore compiled java files
 *.class
 
-# Ignorar archivos de configuración de otros IDEs
+# Ignore confirmation files from others IDEs
 .idea/
 *.iml
 *.settings/
