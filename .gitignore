@@ -1,6 +1,3 @@
-# Ignore core of generated data
-data/
-
 # Ignore build folders
 bin/
 out/
