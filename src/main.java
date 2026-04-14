@@ -7,7 +7,7 @@ import java.util.*;
  * 1. Total money per salesman (sorted descending)
  * 2. Total quantity sold per product (sorted descending)
  */
-public class main {
+public class Main {
 
     public static void main(String[] args) {
 
@@ -40,15 +40,43 @@ public class main {
                         // Process sales
                         while ((line = br.readLine()) != null) {
                             String[] parts = line.split(";");
-                            int productId = Integer.parseInt(parts[0]);
-                            int quantity = Integer.parseInt(parts[1]);
 
+                            // Validar formato
+                            if (parts.length < 2) {
+                                System.out.println("Línea inválida: " + line);
+                                continue;
+                            }
+
+                            int productId;
+                            int quantity;
+
+                            try {
+                                productId = Integer.parseInt(parts[0]);
+                                quantity = Integer.parseInt(parts[1]);
+                            } catch (NumberFormatException e) {
+                                System.out.println("Error convirtiendo datos: " + line);
+                                continue;
+                            }
+
+                            // Validar existencia del producto
+                            if (!products.containsKey(productId)) {
+                                System.out.println("Producto no existe: " + productId);
+                                continue;
+                            }
+
+                            // Validar cantidad
+                            if (quantity <= 0) {
+                                System.out.println("Cantidad inválida: " + quantity);
+                                continue;
+                            }
+
+                            // ✔ Procesar venta
                             int price = products.get(productId).price;
                             totalMoney += quantity * price;
 
-                            productTotals.put(productId, productTotals.getOrDefault(productId, 0) + quantity);
+                            productTotals.put(productId,
+                                productTotals.getOrDefault(productId, 0) + quantity);
                         }
-
                         salesmanTotals.put(id, totalMoney);
                         br.close();
                     }
@@ -128,7 +156,16 @@ public class main {
         FileWriter writer = new FileWriter("data/product_report.csv");
         for (Map.Entry<Integer, Integer> entry : list) {
             int id = entry.getKey();
-            writer.write(products.get(id).name + ";" + entry.getValue() + "\n");
+                // Validar que el producto exista
+            if (!products.containsKey(id)) {
+                System.out.println("Producto no encontrado en reporte: " + id);
+                continue;
+            }
+
+            Product p = products.get(id);
+
+            // Escribir: nombre;precio;cantidad
+            writer.write(p.name + ";" + p.price + ";" + entry.getValue() + "\n");
         }
         writer.close();
     }
